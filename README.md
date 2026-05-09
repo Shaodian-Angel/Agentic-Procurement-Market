@@ -29,8 +29,36 @@
 | **Sim 4** | Symmetric AI Seller | 测试对称博弈下的 Nash 均衡与协调失败情况。 |
 | **Sim 5** | Asymmetric AI | 验证精细化买方对比集体信息卖方的实际价值。 |
 
+### 2.1 递进变化
+**2.1.1 Sim 3**\
+ActiveSeller (FSM)：
+ - 状态定义：实现了 Baseline, PushBack, Concession, RewardTrust 四个状态。
+ - 迁移逻辑：_transition_state 方法严格依赖 bid_history 和 interaction_count 等本地可观测信号。例如，只有当 interaction_count >= 2 且过去3轮中有2次出价接近 Ask 时，才会进入 RewardTrust。
+ - 响应机制：respond_to_bid 返回包含 state 字段的字典，并根据当前状态动态调整 counter_offer（如 PushBack 时加价 delta_ask）。
+
+BuyerSystemSim2 适配：
+ - 新增 seller_states_log 字典，在 run_simulation 中实时记录每个 Seller 的状态变化。
+
+实验指标实现：
+ - Convergence Round：在 run_batch_experiment 中实现了双重校验逻辑（连续3轮状态不变 + Ask 价格变化率 < 0.5%）。
+ - System Cycle Flag：检测最后5轮中是否存在长度为3的重复状态序列。
+ - 可视化：analyze_200_runs 新增了第4个子图，展示收敛轮数的分布及收敛率。
+
 ## 3. 核心科学问题
 1. 在什么条件下 Agentic Market 会收敛到稳定的分布均衡？
 2. 双边反馈循环（Bilateral Feedback Loop）在何种参数下会收敛而非循环？
 3. 个体买方的智能化优势能否抵消卖方的集体信息优势？
+
+
+## 4. simulation 文件夹结构
+```simulation/
+├── sim1_passive_known.py
+├── sim2_passive_unknown.py
+├── sim3_adaptive_simple.py
+├── sim4_symmetric_ai.py
+└── sim5_asymmetric_ai.py
+```
+
+## 5. 结论
+
 

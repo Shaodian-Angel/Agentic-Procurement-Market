@@ -133,7 +133,7 @@ def run_batch_experiment(num_runs=200, rounds_limit=20, penalty=0.2):
 
         if i % 10 == 0:
             print(f"进度: {i}/{num_runs} | 当前 AUP 均值: {pd.DataFrame(results)['final_aup'].mean():.2f}")
-            pd.DataFrame(results).to_csv(f"{output_dir}/sim2_intermediate_stats.csv", index=False)
+            pd.DataFrame(results).to_csv(f"{output_dir}/sim2__{num_runs}_runs_{rounds_limit}_rounds_{penalty}_penalty_intermediate_stats.csv", index=False)
 
     return pd.DataFrame(results)
 
@@ -173,7 +173,7 @@ if __name__ == "__main__":
     llm = GPTInference()
     num_runs = 200
     rounds_limit = 20
-    penalty = 0.3
+    penalty = 0.2
     df_final = run_batch_experiment(num_runs, rounds_limit, penalty)
 
     # 保存最终详细结果
