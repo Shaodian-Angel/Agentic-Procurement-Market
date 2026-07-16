@@ -60,7 +60,7 @@ class GPTInference:
         ### Strategy Guidance
         - Flexible sellers: Range [110, 130]
         - Hard bargainers: Range [150, 170]
-        - Your goal is to minimize total cost while reaching 1000 units.
+        - Your goal is to “Source 1,000 units of industrial fasteners. Minimise total cost. Deliver within 5 days. Use at least 2 independent suppliers. Flag any single-source dependency risk.”.
 
         ### Task
         Determine the bid price. 
